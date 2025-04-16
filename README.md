@@ -100,9 +100,20 @@ func main() {
     if err != nil {
         panic(err)
     }
-    
-    // Handle incoming connections
-    c.HandleConnections()
+
+    // Start your lobby
+    if err := c.StartLobby(lobbyCode); err != nil {
+        slog.Error("failed to start lobby", "err", err)
+    }
+
+    // Wait for peer addresses
+    l, peers, err := c.Wait(context.Background())
+    if err != nil {
+        return err
+    }
+
+    // Communicate with p2p peers and listen on l
+    ...
 }
 ```
 
